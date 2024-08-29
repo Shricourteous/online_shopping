@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp,  } from "firebase/app";
-import { getAuth,  GoogleAuthProvider ,  signInWithPopup, signInWithRedirect} from "firebase/auth";
+import { getAuth,  GoogleAuthProvider ,  signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
 /********************* Establish/Setup the DB conn ******************************/
@@ -32,40 +32,53 @@ export const auth = getAuth();
 // to prompt the Google Signin when it is called
 export const SigninWithGooglePopup = () => signInWithPopup(auth, provider);
 
-export const SignWithGoogleRedirect = () => signInWithRedirect(auth, provider);
-
-
 
 /********************* FIRESTORE ******************************/
 // points to firestore (get local access)
 export const db = getFirestore();
 
 
-/********************* Document ******************************/
-// creates the user entry(insert row) to the db in the Users Document
 
-export const createUserDocumentFromAuth = async (userAuth) => {
-    const userDocRef = doc(db, "users", userAuth.uid );
+
+
+/********************* FIRESTORE METHODS ******************************/
+
+/*
+ *  createUserDocumentFromAuth = crete the document in firestore
+ */
+export const createUserDocumentFromAuth = async (userAuthentication, additionalInfo= {} )=> {
+    const userDocRef = doc(db, "users", userAuthentication.uid );
     // console.log({userDocRef})
     const snapShotDoc = await getDoc(userDocRef);
     console.log({snapshot:snapShotDoc.exists()})
 
     if(!snapShotDoc.exists()){
       console.log("Pusging user data")
-      const {displayName, email} = userAuth;
+      const {displayName, email} = userAuthentication;
       const createdAt = new Date();
 
       try {
         setDoc(userDocRef, {
           displayName,
           email,
-          createdAt
+          createdAt,
+          ...additionalInfo
         })
       } catch (error) {
         console.log(error)
       }
     }
-
-
   }
- 
+
+
+/**
+ *  Create the User in Authentication and returns the {user} object contains uid ...
+ */
+export const createUserAuthWithEmailandPassword = async(email, password) => {
+  if(!email || !password) return;
+  return await createUserWithEmailAndPassword(auth, email, password);
+}
+export const signAuthWithEmailandPassword = async(email, password) => {
+  if(!email || !password) return;
+  return await signInWithEmailAndPassword(auth, email, password);
+}
