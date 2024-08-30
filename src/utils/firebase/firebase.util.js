@@ -1,6 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp,  } from "firebase/app";
-import { getAuth,  GoogleAuthProvider ,  signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
+import { getAuth,  GoogleAuthProvider ,  signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged} from "firebase/auth";
 import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
 
 /********************* Establish/Setup the DB conn ******************************/
@@ -50,10 +50,10 @@ export const createUserDocumentFromAuth = async (userAuthentication, additionalI
     const userDocRef = doc(db, "users", userAuthentication.uid );
     // console.log({userDocRef})
     const snapShotDoc = await getDoc(userDocRef);
-    console.log({snapshot:snapShotDoc.exists()})
+    // console.log({snapshot:snapShotDoc.exists()})
 
     if(!snapShotDoc.exists()){
-      console.log("Pusging user data")
+      console.log("Pushing user data to fireStore")
       const {displayName, email} = userAuthentication;
       const createdAt = new Date();
 
@@ -71,8 +71,11 @@ export const createUserDocumentFromAuth = async (userAuthentication, additionalI
   }
 
 
+
+
+
 /**
- *  Create the User in Authentication and returns the {user} object contains uid ...
+ *  Helper functions =>  
  */
 export const createUserAuthWithEmailandPassword = async(email, password) => {
   if(!email || !password) return;
@@ -82,3 +85,10 @@ export const signAuthWithEmailandPassword = async(email, password) => {
   if(!email || !password) return;
   return await signInWithEmailAndPassword(auth, email, password);
 }
+
+export const signOutUser = async() =>{
+  await signOut(auth);
+  console.log("Signed out... ")
+}
+
+export const authStateChangeListener = (callBack) => onAuthStateChanged(auth, callBack);
