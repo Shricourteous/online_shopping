@@ -71,9 +71,6 @@ export const createUserDocumentFromAuth = async (userAuthentication, additionalI
   }
 
 
-
-
-
 /**
  *  Helper functions =>  
  */

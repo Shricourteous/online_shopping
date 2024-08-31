@@ -1,10 +1,9 @@
-import React, { useContext, useState } from 'react'
+import React, {  useState } from 'react'
 import FormInput from '../form-input/form-input.component'
 import Button from '../button/button-component'
 
 import { SigninWithGooglePopup } from '../../utils/firebase/firebase.util'
 import { createUserDocumentFromAuth , signAuthWithEmailandPassword} from '../../utils/firebase/firebase.util'
-import { UserContext } from '../../context/user-context'
 
 import './signin-form.style.scss'
 
@@ -19,15 +18,13 @@ const SignInForm = () => {
     // attributes declaration
     const [formField, setformField] = useState(defaultField)
     const { email, password } = formField;
-    const {setcurrentUser} = useContext(UserContext);
     
 
     // Authentication Backend with GOogle popup
     const logGoogleUser = async () => {
         const { user } = await SigninWithGooglePopup()
         // console.log({user}) user contains uid 
-        await createUserDocumentFromAuth(user)
-        setcurrentUser(user)
+        // await createUserDocumentFromAuth(user) // ==> moved to user-context > contextProvider >UseEffect
     }
 
 
@@ -41,7 +38,6 @@ const SignInForm = () => {
             console.log("Sigining in...", email, password)
             event.preventDefault();
             const {user} = await signAuthWithEmailandPassword(email, password)
-            setcurrentUser(user)
             
         } catch (error) {
             if(error.code == "auth/invalid-credential"){
