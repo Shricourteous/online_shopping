@@ -27,7 +27,7 @@ const SignInForm = () => {
         // await createUserDocumentFromAuth(user) // ==> moved to user-context > contextProvider >UseEffect
     }
 
-
+    const [error, setError] = useState(null);
 
     const changeHandler = (event) => {
         const { name, value } = event.target
@@ -43,7 +43,8 @@ const SignInForm = () => {
             if(error.code == "auth/invalid-credential"){
                 alert("Wrong email or password")
             }
-            console.log(error)
+            setError(`Unhandled error: ${error.message}`);
+            window.location.reload();
         }
     }
 

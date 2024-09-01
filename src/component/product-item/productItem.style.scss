@@ -1,0 +1,29 @@
+.split-line{
+    color: red;
+    width: 75%;
+}
+
+.item-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+
+    img{
+        height: 150px;
+        width: 100px;
+    }
+    
+
+    .item-details{
+        display: flex;
+        // width: max-content;
+        width: 500px;
+        justify-content: space-between;
+        margin-left: 20px;
+        p{
+            cursor: pointer;
+            user-select: none; 
+        }
+    }
+}
