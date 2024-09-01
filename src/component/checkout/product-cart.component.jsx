@@ -9,11 +9,9 @@ const ProductCartItems = () => {
     const {cartItems} = useContext(CartContext)
 
     return (
-            cartItems.map((eachItem) => {
-            return(    
-                <ProductItem key={eachItem.id} {...eachItem} />
-            )
-        })
+            cartItems.map((eachItem) =>(
+            <ProductItem key={eachItem.id} {...eachItem}/>
+            ))
 
 )
 }
