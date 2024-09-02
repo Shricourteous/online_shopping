@@ -1,6 +1,6 @@
 import { createContext, useEffect, useState } from "react";
-
-import SHOP_DATA from "../shop-data/shop-data.json"
+import { addCollectionandDocument } from "../utils/firebase/firebase.util";
+import SHOP_DATA from "../shop-data"
 
 
 export const ProductContext = createContext({
@@ -9,12 +9,22 @@ export const ProductContext = createContext({
 })
 
 export const ProductContextProvider = ({children}) => {
-    const [products, setproducts] = useState(SHOP_DATA)
+    const [products, setproducts] = useState([])
 
+
+    /**
+     *  NOTE : the below script is an example of how the batch of data is inserted!!!
+     */
+    // useEffect(()=>{
+    //     addCollectionandDocument("categories", SHOP_DATA)
+    //     // console.log(SHOP_DATA)
+    // }, [])
+
+    
     const value = {products, setproducts}
 
     useEffect(()=>{
-        setproducts(SHOP_DATA)
+        setproducts([])  // <====================== add products here
     },[])
 
     return <ProductContext.Provider value={value}>{children}</ProductContext.Provider>

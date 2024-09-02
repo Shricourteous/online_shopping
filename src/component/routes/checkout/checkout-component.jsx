@@ -8,9 +8,7 @@ import React, { useContext, useEffect } from 'react'
 const CheckOutPage = () => {
     const { cartItems, cartTotal} = useContext(CartContext)
     console.log("redddder")
-    // useEffect(() => {
-    //     settotal(cartItems.reduce((prev , eachItem)=>(prev+eachItem.price), 0))
-    // }, [cartItems])
+
     return (
         <>
             {!cartItems[0] ? (<h2>Nothing in Cart <br />Purchase the product</h2>)
