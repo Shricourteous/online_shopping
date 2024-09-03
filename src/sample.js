@@ -50,14 +50,19 @@ const productItem =     {
 // let res = addToCartItemArray(cartItem, productItem)
 // console.log(res)
 
-const removeFromCartItemArray = (cartItems, removeId) => {
-    const newCartItems = []
-    cartItems.forEach(element => {
-        if(element.id!= removeId){
-            newCartItems.push(element)
-        }
-    });
-    return newCartItems
-}
+// const removeFromCartItemArray = (cartItems, removeId) => {
+//     const newCartItems = []
+//     cartItems.forEach(element => {
+//         if(element.id!= removeId){
+//             newCartItems.push(element)
+//         }
+//     });
+//     return newCartItems
+// }
 
-console.log( removeFromCartItemArray(cartItem, 10))
+// console.log( removeFromCartItemArray(cartItem, 10))
+
+
+productItem["newItem"] = "new Values"
+
+console.log(productItem)

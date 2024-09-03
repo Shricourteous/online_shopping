@@ -1,7 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp,  } from "firebase/app";
 import { getAuth,  GoogleAuthProvider ,  signInWithPopup, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged} from "firebase/auth";
-import { getFirestore, doc, getDoc, setDoc, collection, writeBatch } from "firebase/firestore";
+import { getFirestore, doc, getDoc, setDoc, collection, writeBatch, query, getDocs } from "firebase/firestore";
 
 /********************* Establish/Setup the DB conn ******************************/
 // Your web app's Firebase configuration
@@ -83,7 +83,20 @@ export const addCollectionandDocument = async ( collectionKey, objectsToAdd) =>{
 
   batch.commit();
   console.log("Done")
+}
 
+export const getCategoriesAndDocuments = async () => {
+  const collectionRef = collection(db, "categories")  // refers to collection in fireSTore
+  const q = query(collectionRef)  // reference to the entire "categories" collection
+
+  const querySnapshot = await getDocs(q) // fetch all data (docs) snapshot from firestore
+  
+  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot)=> {  //map over it
+    const {items, title} = docSnapshot.data();
+    acc[title.toLowerCase()] = items  // add to accumulator
+    return acc;  // return all data
+  }, {})  // {} represents the (json) objects
+  return categoryMap  //return entire data 
 }
 
 
